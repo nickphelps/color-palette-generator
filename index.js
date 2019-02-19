@@ -40,7 +40,7 @@ class ColorCard extends React.Component {
         })
         
     }//random function
-    toggleLock = (i) => {
+    toggleLock = (index) => {
         
         // let lockButton = this.state.colors.map(function (locked, index) {
 
@@ -62,7 +62,10 @@ class ColorCard extends React.Component {
     } //toggleLock
 
     render() {
+        this.toggleLock = this.toggleLock.bind(this)
+
         console.log('This is the render being called', this.props)
+        
         return (
             <div>
                 <div className='text-center fixed top'>
@@ -71,9 +74,23 @@ class ColorCard extends React.Component {
                 <div>
                     {
                         this.state.colors.map(function(color,index) {
-                            // console.log(color)
-                            return <Color toggle={() => this.toggleLock(index)} color={color.hexCode} key={index} />
-                        })
+                            // index = 
+                            
+                            // console.log(this.color)
+                            return <Color  color={color.hexCode} locked={() => {
+                                console.log(index)
+                                if (color.isLocked === false) {
+                                console.log(color)
+                                document.getElementById('lockButton').innerHTML = 'Button Locked'
+                                document.getElementById('lockButton').disabled = true
+                                // this.setState({
+                                //     isLocked: true
+                                // })
+                                }
+                                
+                                }} key={index} />
+                        })//map
+
                     }
                 </div>
             </div>
@@ -84,19 +101,47 @@ class ColorCard extends React.Component {
 
 }//ColorCard
 
-const Color = props => {
-    // console.log('entered colors', props)
+// const Color = props => {
+//     // console.log('entered colors', props)
+//     console.log(this)
 
-    let { color, isLocked } = props
-    // let { toggle, }
+//     let { color, isLocked } = props
+//     // let { toggle, }
+//     console.log(props)
+
+//     return ( 
+//         <div style={{backgroundColor: props.color}} className="card-body">
+//             <h5 className="card-title">{props.color}</h5>
+//             <button onClick={props.locked} id="lockButton" className="btn btn-primary">Lock Color</button>
+//         </div>
+//     )
+// }
+
+class Color extends React.Component {
+    constructor(props) {
+        super(props)
+        // console.log(props)
+        let { color, isLocked } = props
+
+
+    }
+    render () {
+            // console.log('entered colors', props)
+    // console.log(this)
+
+    // // let { toggle, }
+    // console.log(this.props)
+    const props = this.props
     console.log(props)
 
     return ( 
         <div style={{backgroundColor: props.color}} className="card-body">
             <h5 className="card-title">{props.color}</h5>
-            <button onClick={props.toggle} id="lockButton" className="btn btn-primary">Lock Color</button>
+            <button onClick={props.locked} id="lockButton" className="btn btn-primary">Lock Color</button>
         </div>
     )
+
+    }
 }
 
 ReactDOM.render(<ColorCard />, document.getElementById('root'))
